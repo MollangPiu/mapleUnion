@@ -28,15 +28,15 @@ PW 확인:<input type="text" id="regist_pw_second">
             return false;
         }
 
-        console.log('test');
-        return ;
-        axios({
-            url: '/api/member/join/findId',
-            method: 'post',
-            data: {
-                id: idCheck
-            }
-        })
+
+        let obj = {id: idCheck()};
+        console.log(obj);
+
+        axios.post('/api/member/join/findId', JSON.stringify(obj), {
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        });
     }
 
     function act_join() {
