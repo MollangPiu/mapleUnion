@@ -17,23 +17,14 @@ import jakarta.persistence.*;
 @Table(name = "MEMBER")  // index 없음 (기본 테이블 생성)
 public class Member {
 
-    @Id
-    private Long id;
-    private String name;
+    @Id //PK 지정
+    @GeneratedValue(strategy = GenerationType.AUTO) //SEQ 정의
+    @Column(name="MEMBER_SEQ")
+    private Long memberSeq;     //MemberSeq
+    
+    @Column(unique = true, length=15, name="MEMBER_ID")   //유니크 설정, 길이 15글자 이내
+    private String id;  //ID
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Column(unique = true, length = 18, name="MEMBER_NICKNAME")
+    private String nickName;
 }

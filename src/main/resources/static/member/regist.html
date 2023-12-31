@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입하기</title>
+
+    <!-- js Deliver에서 axios 불러오기 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+ID:<input type="text" id="regist_id">
+<button onClick="btn_findId()">아이디 중복 체크</button>
+</br>
+
+PW:<input type="text" id="regist_pw"><br/>
+PW 확인:<input type="text" id="regist_pw_second">
+<button type="button" id="btn_login" onClick="act_join()"> 회원가입 버튼</button>
+<script>
+
+    const idCheck = () => document.getElementById('regist_id').value;
+
+    function btn_findId() {
+
+        console.log(idCheck());
+        if(idCheck().length == 0) {
+            alert('ID가 아무것도 입력이 되어 있지 않습니다.');
+
+            return false;
+        }
+
+
+        let obj = {id: idCheck()};
+        console.log(obj);
+
+        axios.post('/api/member/join/findId', JSON.stringify(obj), {
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        });
+    }
+
+    function act_join() {
+        let joinId = document.getElementById('regist_id').value;
+        let joinPw = document.getElementById('regist_pw').value;
+        let joinPwSec = document.getElementById('regist_pw_second').value;
+    }
+
+</script>
+</body>
+</html>
