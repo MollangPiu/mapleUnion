@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+
+    <!-- js Deliver에서 axios 불러오기 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+ID:<input type="text" id="login_id"><br/>
+PW:<input type="text" id="login_pw"><br/>
+<button type="button" id="btn_join" onClick="location.href='/joinMove'"> 회원가입 버튼</button>
+<button type="button" id="btn_login" onClick="act_login()"> 로그인 버튼</button>
+
+<script>
+
+    /**
+     * 회원 가입하기
+     */
+    function act_login() {
+
+        let idCheck = document.getElementById('login_id').value;
+        let pwCheck = document.getElementById('login_pw').value;
+
+        axios({
+            url: '/api/member/find',
+            method: 'get',
+            data: {
+                id: idCheck,
+                password: pwCheck
+            }
+        })
+
+    }
+
+
+</script>
+</body>
+</html>

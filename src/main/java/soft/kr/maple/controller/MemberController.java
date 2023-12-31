@@ -14,9 +14,20 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+
+    /**
+     * 회원가입, 아이디 중복 체크
+     */
+    @PostMapping("/join/findId")
+    public void MemberJoinFindId() {
+        System.out.println("확인");
+    }
+    
     @GetMapping("/find")
     public void MemberFind() {
         System.out.println("member");
     }
+    
+    
 
 }

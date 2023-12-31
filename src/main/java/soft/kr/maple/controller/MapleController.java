@@ -16,12 +16,6 @@ public class MapleController {
     @PersistenceContext
     EntityManager entityManager;
 
-    @GetMapping("/")
-    public void main() {
-        System.out.println("test");
-    }
-
-
     @GetMapping("/test")
     @Transactional
     public void test() {
