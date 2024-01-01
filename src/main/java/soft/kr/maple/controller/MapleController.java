@@ -19,14 +19,6 @@ public class MapleController {
     @GetMapping("/test")
     @Transactional
     public void test() {
-        System.out.println("start");
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("Test");
-
-        entityManager.persist(member);
-
-        System.out.println( "Hello World!" );
     }
 
 }

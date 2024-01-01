@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 @Getter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // JPA에서 lazy관련 에러 날 경우 사용
 @Entity  // 객체와 테이블 매핑
-@Table(name = "MEMBER")  // index 없음 (기본 테이블 생성)
+@Table(name = "TB_MEMBER")  // index 없음 (기본 테이블 생성)
 public class Member {
 
     @Id //PK 지정
