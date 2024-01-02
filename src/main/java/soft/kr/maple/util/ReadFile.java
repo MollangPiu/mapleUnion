@@ -11,7 +11,7 @@ public class ReadFile {
         BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\MHS\\Desktop\\mapleUnion\\maple_api_key.txt"));
         String str;
         if((str = reader.readLine()) != null && str.startsWith("test") && str.length() > 100) {
-            System.out.println(str);
+            //Check
         }
 
 

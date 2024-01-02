@@ -5,11 +5,13 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
@@ -19,7 +21,7 @@ public class GetHttpClient {
 
     void test() {
 
-        String encodeResult = URLEncoder.encode("곰돌쁘띠");
+        String encodeResult = URLEncoder.encode("test");
 
         String url = "http://open.api.nexon.com";
         String api = "/maplestory/v1/id";
@@ -40,16 +42,65 @@ public class GetHttpClient {
 
             //get 요청
             CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
-            System.out.println("::GET Status");
 
-            System.out.println(httpResponse.getCode());
             String json = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            System.out.println(json);
 
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 캐릭터 이름을 ocid로 변환
+     * @param characterName 캐릭터 이름
+     * @return String Maple에서 사용 된 ocid 값
+     */
+    public static String ocidFind(String characterName) {
+
+        String result = "error";
+
+        try {
+            //캐릭터 이름 인코딩
+            String encodeCharacterName = URLEncoder.encode(characterName);
+
+            //Http Clienrt 생성
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+
+            //get URL 설정
+            //캐릭터이름 조회
+            HttpGet httpGet = new HttpGet(NEXON_API + "/maplestory/v1/id" + "?character_name=" + encodeCharacterName);
+
+            String apiKey = ReadFile.readApi();
+            if (apiKey.equals("error")) {
+                throw new IOException("API KEY ERROR");
+            }
+
+            //header 값 전송
+            httpGet.addHeader("x-nxopen-api-key", apiKey);
+            httpGet.addHeader("Content-type", "application/json");
+
+            //get 요청
+            CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+
+            HttpEntity responseEntity = httpResponse.getEntity();
+
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(EntityUtils.toString(httpResponse.getEntity(), "UTF-8"));
+            result = (String) obj.get("ocid");
+
+        }
+        catch (IOException e) {
+            System.out.println("API_ERROR");
+        }
+        catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
@@ -65,7 +116,7 @@ public class GetHttpClient {
     }
 
 
-    public String getHttpClient(String apiUrl, HashMap<String, String> paramMap) {
+    public static String getHttpClient(String apiUrl, HashMap<String, String> paramMap) {
 
         String result = "error";
 
@@ -95,13 +146,13 @@ public class GetHttpClient {
             CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
             result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+            System.out.println(result);
 
         }
         catch (IOException e) {
             System.out.println("API_KEY_ERROR");
-        }
-        catch (ParseException e) {
-            System.out.println("RESONSE_ERROR");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
