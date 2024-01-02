@@ -25,19 +25,30 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	compile('org.springframework.boot:spring-boot-devtools') //devtools
+//	compile('org.springframework.boot:spring-boot-devtools') //devtools
 
-	//thymeleaf
-	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+	implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0.1'
 
-	// H2
-	runtimeOnly 'com.h2database:h2:2.2.220'
+	// hibernate-core
+	// implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.15.Final'
+
+	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+	//implementation group: 'org.hibernate.orm', name: 'hibernate-community-dialects', version: '6.4.1.Final'
+
 
 	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
-	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.2'
+	//implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.2'
+
+	// HTTPCLIENT
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3'
+
+	// JSON-SIMPLE
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 
 	//JPA
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	//Lombok 설정
 	compileOnly 'org.projectlombok:lombok'

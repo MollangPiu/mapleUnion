@@ -9,7 +9,6 @@ public class MainController {
     @GetMapping("/")
     public String mainStart() {
 
-        System.out.println("main");
         return "redirect:/login";
     }
 
@@ -21,7 +20,6 @@ public class MainController {
     @GetMapping("/login")
     public String login() {
 
-        System.out.println("login");
         return "login";
     }
 
