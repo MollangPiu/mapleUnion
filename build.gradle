@@ -31,17 +31,21 @@ dependencies {
 	implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0.1'
 
 	// hibernate-core
-	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.15.Final'
+	// implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.15.Final'
 
 	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
-	implementation group: 'org.hibernate.orm', name: 'hibernate-community-dialects', version: '6.4.1.Final'
+	//implementation group: 'org.hibernate.orm', name: 'hibernate-community-dialects', version: '6.4.1.Final'
 
 
 	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
-	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.2'
+	//implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.2'
+
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3'
+
 
 	//JPA
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	//Lombok 설정
 	compileOnly 'org.projectlombok:lombok'
