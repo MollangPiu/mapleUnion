@@ -43,6 +43,11 @@ public class TestController {
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
+    /**
+     * ResponseEntity
+     * @return
+     * 코드, 메세지 구현
+     */
     @GetMapping("/status/entityTwo")
     public ResponseEntity<ResponseMessage> statusTwo() {
         ResponseMessage responseMessage = new ResponseMessage();

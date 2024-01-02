@@ -3,6 +3,7 @@ package soft.kr.maple.util;
 public class ResponseMessage {
 
     private StatusEnum status;
+    private int statusCode;
     private String message;
     private Object data;
 
@@ -10,6 +11,10 @@ public class ResponseMessage {
         this.status = StatusEnum.OK;
         this.data = null;
         this.message = "성공";
+    }
+
+    public int getStatusCode() {
+        return status.statusCode;
     }
 
     public StatusEnum getStatus() {
