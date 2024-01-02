@@ -10,6 +10,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import soft.kr.maple.exception.TestException;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -111,49 +112,47 @@ public class GetHttpClient {
         param.put("ocid", "dc94e1d53b97df9aebc1b2eb5899e9aaefe8d04e6d233bd35cf2fabdeb93fb0d");
         param.put("date", "2024-01-01");
 
-        String result = getHttpClient.getHttpClient("/maplestory/v1/character/basic", param);
-        System.out.println(result);
     }
 
 
-    public static String getHttpClient(String apiUrl, HashMap<String, String> paramMap) {
+    public static JSONObject getHttpClient(String apiUrl, HashMap<String, String> paramMap) throws TestException, Exception {
 
         String result = "error";
+        JSONObject obj = new JSONObject();
 
-        try {
-            String param = paramMap.toString().substring(1, paramMap.toString().length() - 1);
-            param = param.replace(", ", "&");
+        String param = paramMap.toString().substring(1, paramMap.toString().length() - 1);
+        param = param.replace(", ", "&");
 
-            String url = "http://open.api.nexon.com";
-            //apiUrl = "/maplestory/v1/id";
+        String url = "http://open.api.nexon.com";
+        //apiUrl = "/maplestory/v1/id";
 
-            //Http Clienrt 생성
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        //Http Clienrt 생성
+        CloseableHttpClient httpClient = HttpClients.createDefault();
 
-            //get URL 설정
-            HttpGet httpGet = new HttpGet(NEXON_API + apiUrl + "?" + param);
+        //get URL 설정
+        HttpGet httpGet = new HttpGet(NEXON_API + apiUrl + "?" + param);
 
-            String apiKey = ReadFile.readApi();
-            if (apiKey.equals("error")) {
-                throw new IOException("API KEY ERROR");
-            }
-
-            //header 값 전송
-            httpGet.addHeader("x-nxopen-api-key", apiKey);
-            httpGet.addHeader("Content-type", "application/json");
-
-            //get 요청
-            CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
-
-            result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            System.out.println(result);
-
+        String apiKey = ReadFile.readApi();
+        if (apiKey.equals("error")) {
+            throw new IOException("API KEY ERROR");
         }
-        catch (IOException e) {
-            System.out.println("API_KEY_ERROR");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+
+        //header 값 전송
+        httpGet.addHeader("x-nxopen-api-key", apiKey);
+        httpGet.addHeader("Content-type", "application/json");
+
+        //get 요청
+        CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+
+        result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+
+        JSONParser parser = new JSONParser();
+        obj = (JSONObject) parser.parse(result);
+        obj.put("status", 200);
+
+        httpClient.close();
+        httpResponse.close();
+
+        return obj;
     }
 }
