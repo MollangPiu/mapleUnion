@@ -19,4 +19,16 @@ public class NowTime {
         return String.valueOf(today);
     }
 
+    /**
+     * 오늘 날짜 저장하기
+     * @return
+     */
+    public static String toDayNow() {
+
+        DateTimeFormatter ymdFormatter = DateTimeFormatter.BASIC_ISO_DATE;
+        LocalDate today = LocalDate.now();
+
+        return String.valueOf(today);
+    }
+
 }

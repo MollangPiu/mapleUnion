@@ -1,33 +1,46 @@
 package soft.kr.maple.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import soft.kr.maple.exception.TestException;
+import soft.kr.maple.mapper.OcidDao;
 import soft.kr.maple.util.GetHttpClient;
 import soft.kr.maple.util.NowTime;
 
-import java.net.http.HttpClient;
 import java.util.HashMap;
 
 @Service
 public class CharacterService {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+    OcidDao ocidDao = new OcidDao();
 
     /**
      * 캐릭터 등록
      */
     public void insertCharcter(String character_id) throws TestException, Exception {
 
-        String ocid = GetHttpClient.ocidFind(character_id); //OCID 값 가져오기
+        JSONObject obj = GetHttpClient.ocidFind(character_id); //OCID 값 가져오기
+        if(!String.valueOf(obj.get("status")).equals("200")) {
+            logger.error("캐릭터를 찾을 수 없음");
+        }
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("ocid", ocid);
-        map.put("date", NowTime.yesterdayNow());
+        map.put("ocid", String.valueOf(obj.get("ocid")));
+        map.put("date", NowTime.toDayNow());
+
+        /**
+         * 백업용
+         */
+        int maxCnt = ocidDao.maxInt();
+        logger.info("maxCnt {}", maxCnt);
+        ocidDao.regist(maxCnt, (String) obj.get("ocid"));
+
 
         //메이플 정보 불러오기
         JSONObject jsonObject = GetHttpClient.getHttpClient("/maplestory/v1/character/basic", map);
-        System.out.println("test");
         System.out.println(jsonObject);
     }
 }
