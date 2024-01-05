@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import soft.kr.maple.util.ResponseMessage;
-import soft.kr.maple.util.StatusEnum;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 
@@ -38,8 +38,6 @@ public class TestController {
     public ResponseEntity<ResponseMessage> status() {
         ResponseMessage responseMessage = new ResponseMessage();
 
-        responseMessage.setStatus(StatusEnum.OK);
-        responseMessage.setMessage("성공2");
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
@@ -55,8 +53,39 @@ public class TestController {
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        responseMessage.setStatus(StatusEnum.OK);
-        responseMessage.setMessage("성공2");
         return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+
+    /**
+     * ResponseEntity
+     * @return
+     * 코드, 메세지 구현
+     */
+    @GetMapping("/status/entityError")
+    public ResponseEntity<ResponseMessage> statusExceptionManagement() {
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        return new ResponseEntity<>(responseMessage, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/status/error")
+    public ResponseEntity<ResponseMessage> error() {
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            throw new IOException("test");
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //responseMessage.setStatus(StatusEnum.OK);
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 }

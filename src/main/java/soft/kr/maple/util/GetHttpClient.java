@@ -10,6 +10,8 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import soft.kr.maple.exception.TestException;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 public class GetHttpClient {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     static final String NEXON_API = "http://open.api.nexon.com";
 
@@ -57,9 +61,10 @@ public class GetHttpClient {
      * @param characterName 캐릭터 이름
      * @return String Maple에서 사용 된 ocid 값
      */
-    public static String ocidFind(String characterName) {
+    public static JSONObject ocidFind(String characterName) {
 
         String result = "error";
+        JSONObject obj = new JSONObject();
 
         try {
             //캐릭터 이름 인코딩
@@ -87,21 +92,27 @@ public class GetHttpClient {
             HttpEntity responseEntity = httpResponse.getEntity();
 
             JSONParser parser = new JSONParser();
-            JSONObject obj = (JSONObject) parser.parse(EntityUtils.toString(httpResponse.getEntity(), "UTF-8"));
-            result = (String) obj.get("ocid");
+            obj = (JSONObject) parser.parse(EntityUtils.toString(httpResponse.getEntity(), "UTF-8"));
+            obj.put("status", 200);
+
+            System.out.println(obj.get("ocid"));
+            System.out.println(obj.get("status"));
 
         }
         catch (IOException e) {
+            obj.put("status", 502);
             System.out.println("API_ERROR");
         }
         catch (ParseException e) {
+            obj.put("status", 502);
             throw new RuntimeException(e);
         }
         catch (Exception e) {
+            obj.put("status", 500);
             e.printStackTrace();
         }
 
-        return result;
+        return obj;
     }
 
     public static void main(String[] args) {

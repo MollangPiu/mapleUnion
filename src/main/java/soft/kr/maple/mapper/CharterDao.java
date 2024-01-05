@@ -21,5 +21,6 @@ public class CharterDao {
             System.out.println(rs.getInt(1));
         }
 
+
     }
 }
