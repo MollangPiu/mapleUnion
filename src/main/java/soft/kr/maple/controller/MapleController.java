@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MapleController {
 
 
-    /*@PersistenceContext
-    EntityManager entityManager;
-*/
+
+
     @GetMapping("/test")
     public void test() {
 
