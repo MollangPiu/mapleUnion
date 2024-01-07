@@ -25,7 +25,7 @@ public class MemberController {
     public void MemberJoinFindId() throws SQLException, ClassNotFoundException {
         System.out.println("확인");
 
-        memberService.charaterFindAll();
+        //memberService.charaterFindAll();
     }
     
     @GetMapping("/find")
